@@ -1,0 +1,46 @@
+#! /usr/bin/env bash
+
+# Colors
+RED="31"
+GREEN="32"
+BOLDGREEN="\e[1;${GREEN}m"
+BOLDRED="\e[1;${RED}m"
+ITALICRED="\e[3;${RED}m"
+ENDCOLOR="\e[0m"
+
+
+# Basic info
+HOSTNAME=`uname -n`
+ROOT=`df -Ph | grep /$ | awk '{print $4}' | tr -d '\n'`
+IP=`hostname -I | awk '{print $1}'`
+UPTIME=`uptime -p`
+MAC=`cat /sys/class/net/e*/address`
+OS=`cat /etc/os-release|grep -oP '(?<=PRETTY_NAME=).*'`
+VMTOOL=`vmware-toolbox-cmd -v`
+
+# System load
+MEMORY1=`free -t -m | grep Total | awk '{print $3" MB";}'`
+MEMORY2=`free -t -m | grep "Mem" | awk '{print $2" MB";}'`
+LOAD1=`cat /proc/loadavg | awk {'print $1'}`
+LOAD5=`cat /proc/loadavg | awk {'print $2'}`
+LOAD15=`cat /proc/loadavg | awk {'print $3'}`
+
+
+echo -e "
+===========================================================
+           NOMBRE1
+                  ${BOLDRED}DESCRIPCION${ENDCOLOR}
+===========================================================
+ - OS Distribution.....: $OS
+ - Hostname............: $HOSTNAME
+ - IP..................: ${BOLDGREEN}$IP${ENDCOLOR}
+ - MAC Address.........: $MAC
+ - Uptime..............: $UPTIME
+ - Disk Space Root.....: $ROOT remaining
+ - VM Tools Version....: $VMTOOL
+===========================================================
+ - CPU usage...........: $LOAD1, $LOAD5, $LOAD15 (1, 5, 15 min)
+ - Memory used.........: $MEMORY1 / $MEMORY2
+ - Swap in use.........: `free -m | tail -n 1 | awk '{print $3}'` MB
+===========================================================
+"
