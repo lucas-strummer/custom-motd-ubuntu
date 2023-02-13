@@ -1,8 +1,6 @@
-### custom-motd-ubuntu
+### MOTD customizado para servidores Ubuntu. Mostrará la información del sistema al loguear.
 
-## MOTD customizado para servidores Ubuntu. Mostrará la información del sistema al loguear.
-
-#INSTALACIÓN:
+# INSTALACIÓN:
 
 .- Copiar en /etc/update-motd.d/
 .- Salir y volver a entrar al server
